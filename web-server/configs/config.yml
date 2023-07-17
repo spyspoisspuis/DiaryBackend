@@ -1,0 +1,11 @@
+connection:
+  appPort: 8100
+  # "db:3306" is for running on Docker container, change to "localhost:3306" if the app-server is run manually on host (same as "redis:6379")
+  # dbURL: 'bot:pass@tcp(db:3306)/Haus64?parseTime=true'
+  # redisURL: 'redis:6379'
+  # redisSecret: 'pJX9LS9VkSbIuEcYFb6oCw=='
+
+static:
+  path: './assets/public'
+  link: '/static/'
+  font: './assets/private/fonts'

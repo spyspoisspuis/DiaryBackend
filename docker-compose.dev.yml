@@ -1,0 +1,43 @@
+#When building an image to port to server
+version: '3'
+
+services:
+  web:
+    container_name: auengauey-web-service
+    build:
+      context: ./web-server
+    environment:
+      CONNECTION_DBURL: ${DB_USER}:${DB_PASSWORD}@tcp(db:3306)/${DB_NAME}?parseTime=true
+      CONNECTION_REDISURL: redis:6379
+      CONNECTION_REDISSECRET: ${REDIS_SECRET}
+      SECURITY_KEY_AES: ${APP_ENCRYPT_KEY}
+      SECURITY_NONCE_AES: ${APP_ENCRYPT_NONCE}
+      CORS_TARGET: ${WEB_CORS_TARGET}
+
+    working_dir: /app
+    ports:
+      - 8100:8100
+    depends_on:
+      - db
+      - redis
+    networks:
+      - backbone
+    command: sh -c "go mod vendor && go run main.go"
+  db:
+    container_name: database-service
+    build:
+      context: ./maria-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./volumes/database:/var/lib/mysql
+    ports:
+      - 3206:3306
+    networks:
+      - backbone
+networks:
+  backbone:
+    driver: bridge
