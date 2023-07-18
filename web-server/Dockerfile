@@ -20,10 +20,9 @@ ENV CONNECTION_DBURL=$CONNECTION_DBURL
 ENV CONNECTION_REDISURL=$CONNECTION_REDISURL
 ENV CORS_TARGET=$CORS_TARGET
 
-RUN go mod download 
-
-COPY . .
-COPY vendor ./vendor
+RUN go mod download &&\
+    go mod vendor
+ 
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o main .
 
