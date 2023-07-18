@@ -16,4 +16,4 @@ jobs:
             docker stop redis_session || true
             docker rm redis_session || true
             cd backend
-            docker-compose -f docker-compose.yml up redis
+            docker-compose -f docker-compose.yml up -d redis

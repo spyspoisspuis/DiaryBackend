@@ -44,7 +44,7 @@ jobs:
             docker image rm ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-db:latest
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-db:latest
             cd backend 
-            docker-compose -f docker-compose.yml -f docker-compose.prod.yml up db
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d db
 
   
   

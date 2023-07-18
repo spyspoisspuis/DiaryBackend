@@ -52,7 +52,7 @@ jobs:
             docker stop web-service || true
             docker rm  web-service || true
             cd backend
-            docker-compose -f docker-compose.yml -f docker-compose.prod.yml up web 
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d web 
 
 
 
