@@ -44,7 +44,7 @@ jobs:
             docker stop web-service || true
             docker rm  web-service || true
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
-            docker run -d -p 3000:3000 \
+            docker run -d -p 8100:8100 \
               --name web-service \
               ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
 
