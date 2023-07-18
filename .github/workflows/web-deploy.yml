@@ -35,26 +35,26 @@ jobs:
         with: 
           context: ./web-server
           file: ./web-server/Dockerfile
-          # build-args: |
-          #   "SECURITY_KEY_AES=${{secrets.APP_ENCRYPT_KEY}}"
-          #   "SECURITY_NONCE_AES=${{secrets.APP_ENCRYPT_NONCE}}"
-          #   "CONNECTION_DBURL=${{secrets.CONNECTION_DBURL}}"
-          #   "CONNECTION_REDISURL=${{secrets.REDISURL}}"
-          #   "CORS_TARGET=${{secrets.WEB_CORS_TARGET}}"
-          push: false
+          build-args: |
+            "SECURITY_KEY_AES=${{secrets.APP_ENCRYPT_KEY}}"
+            "SECURITY_NONCE_AES=${{secrets.APP_ENCRYPT_NONCE}}"
+            "CONNECTION_DBURL=${{secrets.CONNECTION_DBURL}}"
+            "CONNECTION_REDISURL=${{secrets.REDISURL}}"
+            "CORS_TARGET=${{secrets.WEB_CORS_TARGET}}"
+          push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
 
-      # - name: Deploy to Ubuntu server
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{secrets.EC2_HOST}}
-      #     username: ${{secrets.EC2_USERNAME}}
-      #     key: ${{ secrets.EC2_PRIVATE_KEY }}
-      #     script: |
-      #       docker stop web-service || true
-      #       docker rm  web-service || true
-      #       docker pull ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
-      #       docker run -d -p 8100:8100 \
-      #         --name web-service \
-      #         ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
+      - name: Deploy to Ubuntu server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.EC2_HOST}}
+          username: ${{secrets.EC2_USERNAME}}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            docker stop web-service || true
+            docker rm  web-service || true
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
+            docker run -d -p 8100:8100 \
+              --name web-service \
+              ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
 
