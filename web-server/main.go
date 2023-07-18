@@ -1,15 +1,18 @@
 package main
 
 import (
-	"web-server/internal/db"
-	"web-server/internal/util"
-	"web-server/internal/router"
-	"github.com/spf13/viper"
 	"fmt"
+	"web-server/internal/db"
+	"web-server/internal/router"
+	"web-server/internal/util"
+
+	"github.com/spf13/viper"
 )
 
 func main() {
 	util.InitViper()
+	address := viper.GetString("connection.dbURL")
+	fmt.Println(address)
 	db.ConnectDB()
 	defer db.DisconnectDB()
 
