@@ -62,6 +62,11 @@ jobs:
         with: 
           context: ./maria-db
           file: ./maria-db/Dockerfile
+          build-args: |
+            "MYSQL_ROOT_PASSWORD=${{secrets.DB_ROOT_PASSWORD}}"
+            "MYSQL_DATABASE=${{secrets.DB_NAME}}"
+            "MYSQL_USER=${{secrets.DB_USER}}"
+            "MYSQL_PASSWORD=${{secrets.DB_PASSWORD}}"
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-db:latest
 
