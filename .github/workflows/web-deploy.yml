@@ -1,8 +1,6 @@
 name: WEB CI/CD with Docker 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 
 jobs:
   build-and-deploy-web:
@@ -51,16 +49,17 @@ jobs:
           username: ${{secrets.EC2_USERNAME}}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
+            docker network create backbone || true && \
             docker stop web-service || true
             docker rm  web-service || true
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
             docker run -d -p 8100:8100 \
               --name web-service \
-              -e CONNECTION_DBURL=${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@tcp(db:3306)/${{ secrets.DB_NAME }}?parseTime=true \
-              -e SECURITY_KEY_AES=${{ secrets.APP_ENCRYPT_KEY }} \
-              -e SECURITY_NONCE_AES=${{ secrets.APP_ENCRYPT_NONCE }} \
-              -e CONNECTION_REDISURL=${{ secrets.REDISURL }} \
-              -e CORS_TARGET=${{ secrets.WEB_CORS_TARGET }} \
+              -e 'CONNECTION_DBURL=${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@tcp(db:3306)/${{ secrets.DB_NAME }}?parseTime=true' \
+              -e 'SECURITY_KEY_AES=${{ secrets.APP_ENCRYPT_KEY }}' \
+              -e 'SECURITY_NONCE_AES=${{ secrets.APP_ENCRYPT_NONCE }}' \
+              -e 'CONNECTION_REDISURL=${{ secrets.REDISURL }}' \
+              -e 'CORS_TARGET=${{ secrets.WEB_CORS_TARGET }}' \
               ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
 
 

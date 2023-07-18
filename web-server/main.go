@@ -11,8 +11,6 @@ import (
 
 func main() {
 	util.InitViper()
-	address := viper.GetString("connection.dbURL")
-	fmt.Println(address)
 	db.ConnectDB()
 	defer db.DisconnectDB()
 
