@@ -1,6 +1,6 @@
 FROM golang:1.19-alpine AS builder
 
-WORKDIR /src
+WORKDIR /src/diary
 
 COPY . .
 
@@ -10,11 +10,11 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o main .
 
 FROM alpine 
 
-WORKDIR /app
+WORKDIR /app/diary
 
 RUN apk add --no-cache ca-certificates tzdata &&\
     apk add --no-cache go
 
-COPY --from=builder /src .
+COPY --from=builder /src/diary .
 
 ENTRYPOINT ["./main"]
