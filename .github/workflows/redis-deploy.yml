@@ -1,4 +1,4 @@
-name: DB CI/CD with Docker 
+name: REDIS CI/CD with Docker 
 on:
   workflow_dispatch
 
