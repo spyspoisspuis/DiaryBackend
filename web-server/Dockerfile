@@ -1,14 +1,11 @@
 FROM golang:1.19-alpine AS builder
 
-RUN apk add --no-cache git
-
-WORKDIR /src/app
-
-
-RUN go mod download &&\
-    go mod vendor 
+WORKDIR /src
 
 COPY . .
+
+RUN go mod download 
+
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o main .
 
