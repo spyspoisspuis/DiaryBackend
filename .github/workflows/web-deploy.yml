@@ -35,12 +35,12 @@ jobs:
         with: 
           context: ./web-server
           file: ./web-server/Dockerfile
-          build-args: |
-            "SECURITY_KEY_AES=${{secrets.APP_ENCRYPT_KEY}}"
-            "SECURITY_NONCE_AES=${{secrets.APP_ENCRYPT_NONCE}}"
-            "CONNECTION_DBURL=${{secrets.CONNECTION_DBURL}}"
-            "CONNECTION_REDISURL=${{secrets.REDISURL}}"
-            "CORS_TARGET=${{secrets.WEB_CORS_TARGET}}"
+          # build-args: |
+          #   "SECURITY_KEY_AES=${{secrets.APP_ENCRYPT_KEY}}"
+          #   "SECURITY_NONCE_AES=${{secrets.APP_ENCRYPT_NONCE}}"
+          #   "CONNECTION_DBURL=${{secrets.CONNECTION_DBURL}}"
+          #   "CONNECTION_REDISURL=${{secrets.REDISURL}}"
+          #   "CORS_TARGET=${{secrets.WEB_CORS_TARGET}}"
           push: false
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
 
