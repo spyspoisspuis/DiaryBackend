@@ -27,8 +27,8 @@ jobs:
 
       - name: Print go.mod and go.sum
         run: |
-          cat go.mod
-          cat go.sum
+          cat ./web-server/go.mod
+          cat ./web-server/go.sum
 
       - name: Build and push docker image
         uses: docker/build-push-action@v2
