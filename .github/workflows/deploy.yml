@@ -1,5 +1,4 @@
-name: [BACKEND] CI/CD with Docker 
-
+name: CI/CD with Docker 
 on:
   push:
     branches:
