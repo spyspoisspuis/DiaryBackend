@@ -21,8 +21,9 @@ ENV CONNECTION_REDISURL=$CONNECTION_REDISURL
 ENV CORS_TARGET=$CORS_TARGET
 
 RUN go mod download &&\
-    go mod vendor &&\
-    go mod tidy
+    go mod vendor 
+
+COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o main .
 
