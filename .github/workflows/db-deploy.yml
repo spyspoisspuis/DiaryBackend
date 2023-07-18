@@ -79,8 +79,9 @@ jobs:
           script: |
             docker stop database-service || true
             docker rm database-service || true
+            docker image rm ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-db:latest
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-db:latest
-            docker run -d -p 3006:3306 \
+            docker run -d -p 3306:3306 \
               --name database-service \
               ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-db:latest
   
