@@ -44,7 +44,6 @@ jobs:
 
   build-and-deploy-db:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.build-db
     steps:
       - name: Checkout
         uses: actions/checkout@v3
