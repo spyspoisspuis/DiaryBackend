@@ -46,6 +46,7 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-db:latest
             docker run -d -p 3306:3306 \
               --name database-service \
+              --network backbone \
               ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-db:latest
   
   
