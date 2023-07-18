@@ -1,0 +1,22 @@
+name: DB CI/CD with Docker 
+on:
+  workflow_dispatch
+
+jobs:
+  build-redis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Reids container
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.EC2_HOST}}
+          username: ${{secrets.EC2_USERNAME}}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            docker stop redis_session || true
+            docker rm redis_session || true
+            docker pull redis:6.0.20-alpine
+            docker run -d -p 6379:6379 \
+              --name redis_session \
+              redis:6.0.20-alpine
+  
