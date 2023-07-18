@@ -12,6 +12,8 @@ import (
 func main() {
 	util.InitViper()
 	db.ConnectDB()
+	address := viper.GetString("connection.dbURL")
+	fmt.Println(address)
 	defer db.DisconnectDB()
 
 	db.ConnectRedis()
