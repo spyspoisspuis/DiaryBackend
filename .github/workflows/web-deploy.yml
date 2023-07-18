@@ -34,6 +34,7 @@ jobs:
         uses: docker/build-push-action@v2
         with: 
           context: ./web-server
+          file: ./web-server/Dockerfile
           build-args: |
             "SECURITY_KEY_AES=${{secrets.APP_ENCRYPT_KEY}}"
             "SECURITY_NONCE_AES=${{secrets.APP_ENCRYPT_NONCE}}"

@@ -25,7 +25,7 @@ RUN go mod download &&\
 
 COPY . .
 
-RUN go build -o main
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o main .
 
 FROM alpine 
 
@@ -37,4 +37,3 @@ RUN apk add --no-cache ca-certificates tzdata &&\
 COPY --from=builder /src/app .
 
 ENTRYPOINT ["./main"]
-
