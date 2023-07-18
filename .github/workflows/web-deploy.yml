@@ -56,5 +56,11 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
             docker run -d -p 8100:8100 \
               --name web-service \
+              -e SECURITY_KEY_AES=${{secrets.APP_ENCRYPT_KEY}} \
+              -e SECURITY_NONCE_AES=${{secrets.APP_ENCRYPT_NONCE}} \
+              -e CONNECTION_DBURL=${{secrets.CONNECTION_DBURL}} \
+              -e CONNECTION_REDISURL=${{secrets.REDISURL}} \
+              -e CORS_TARGET=${{secrets.WEB_CORS_TARGET}} \
               ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
+
 
