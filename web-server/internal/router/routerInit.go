@@ -11,9 +11,9 @@ func RouterEngine() *gin.Engine {
 	r := gin.Default()
 
 	r.Use(CORS())
+	r.POST("/register", authen.Register)
 	r.POST("/login", authen.Login)
 	r.POST("/logout", authen.Logout)
-
 	user := r.Group("/user")
 	user.Use(authen.AuthenUser)
 	{

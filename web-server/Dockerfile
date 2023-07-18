@@ -2,13 +2,12 @@ FROM golang:1.19-alpine AS builder
 
 RUN apk add --no-cache git
 
-WORKDIR /tmp
+WORKDIR /tmp/diary
 
 COPY go.mod .
 COPY go.sum .
 
-RUN go mod download &&\
-    go mod vendor
+RUN go mod download 
 
 COPY . .
 
@@ -21,6 +20,6 @@ WORKDIR /app
 RUN apk add --no-cache ca-certificates tzdata &&\
     apk add --no-cache go
 
-COPY --from=builder /tmp .
+COPY --from=builder /tmp/diary .
 
 CMD ["./main"]

@@ -3,7 +3,7 @@ version: '3'
 
 services:
   web:
-    image: auengauey_backend_web:latest
+    image: auengauey-diary-backend-web:latest
     container_name: web-service
     environment:
       CONNECTION_DBURL: ${DB_USER}:${DB_PASSWORD}@tcp(db:3306)/${DB_NAME}?parseTime=true
@@ -23,7 +23,7 @@ services:
       - backbone
     command: sh -c "go mod vendor && go run main.go"
   db:
-    image: auengauey_backend_db:latest
+    image: auengauey-diary-backend-db:latest
     container_name: database-service
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
@@ -33,7 +33,7 @@ services:
     volumes:
       - ./volumes/database:/var/lib/mysql
     ports:
-      - 3206:3306
+      - 3006:3306
     networks:
       - backbone
 networks:

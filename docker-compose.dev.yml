@@ -4,6 +4,7 @@ version: '3'
 services:
   web:
     container_name: auengauey-web-service
+    image: auengauey-diary-backend-web:latest
     build:
       context: ./web-server
     environment:
@@ -25,6 +26,7 @@ services:
     command: sh -c "go mod vendor && go run main.go"
   db:
     container_name: database-service
+    image: auengauey-diary-backend-db:latest
     build:
       context: ./maria-db
     environment:
@@ -35,7 +37,7 @@ services:
     volumes:
       - ./volumes/database:/var/lib/mysql
     ports:
-      - 3206:3306
+      - 3006:3306
     networks:
       - backbone
 networks:

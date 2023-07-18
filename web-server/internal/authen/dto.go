@@ -11,3 +11,8 @@ type UserClaims struct {
     jwt.StandardClaims
     Username string `json:"username"`
 }
+
+type RegisterInput struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}

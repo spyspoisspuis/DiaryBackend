@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"web-server/internal/db"
 	"web-server/internal/dstore"
+	"web-server/internal/util"
 
 	"github.com/go-redis/redis"
 
@@ -15,12 +16,12 @@ import (
 func Logout(c *gin.Context) {
 	username, er := RetreiveUsernameFromHeader(c)
 	if er != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": ErrInternal})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error1": er.Error()})
 		return
 	}
 
 	if err := dstore.RemoveToken(username); err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error2": err.Error()})
 		return
 	}
 
@@ -86,4 +87,37 @@ func GetUsername(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"username": username})
+}
+
+func Register(c *gin.Context) {
+	var creds RegisterInput
+	if err := c.ShouldBind(&creds); err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": ErrBadRequest})
+		return
+	}
+
+	dbName, err := db.GetUsername(creds.Username)
+	if err != nil && err != sql.ErrNoRows {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": ErrInternal})
+		return
+	}
+	if dbName != "" {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": ErrDuplicateUsername})
+		return
+	}
+
+	encryptPass, err := util.HashPassword(creds.Password)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": ErrInternal})
+		return
+	}
+
+	err = db.InsertUser(creds.Username, encryptPass)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": ErrInternal})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": MessageSuccessRegister})
+
 }
