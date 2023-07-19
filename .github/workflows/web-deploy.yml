@@ -51,6 +51,8 @@ jobs:
           script: |
             docker stop web-service || true
             docker rm  web-service || true
+            docker image rm ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/auengauey-diary-backend-web:latest
             cd backend
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d web 
 
