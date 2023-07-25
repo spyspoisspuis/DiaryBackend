@@ -43,6 +43,28 @@ INSERT INTO `user` VALUES
 UNLOCK TABLES;
 
 --
+-- Table structure for table `diary`
+--
+
+DROP TABLE IF EXISTS `diary`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `diary` (
+  `writer` varchar(50) NOT NULL,
+  `week`   varchar(50) NOT NULL,
+  `header` TEXT,
+  `context` TEXT,
+  `footer` TEXT,
+  `status` varchar(30) NOT NULL,
+  PRIMARY KEY (`writer`,`week`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `diary`
+--
+
+--
 -- Dumping routines for database 'AuengAuey'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
