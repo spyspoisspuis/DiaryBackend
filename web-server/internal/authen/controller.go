@@ -16,12 +16,12 @@ import (
 func Logout(c *gin.Context) {
 	username, er := RetreiveUsernameFromHeader(c)
 	if er != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error1": er.Error()})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": er.Error()})
 		return
 	}
 
 	if err := dstore.RemoveToken(username); err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error2": err.Error()})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
