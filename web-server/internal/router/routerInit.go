@@ -2,6 +2,7 @@ package router
 
 import (
 	"web-server/internal/authen"
+	"web-server/internal/diary"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -16,8 +17,16 @@ func RouterEngine() *gin.Engine {
 	user := r.Group("/user")
 	user.Use(authen.AuthenUser)
 	{
-		user.GET("/username",authen.GetUsername)
+		user.GET("/username", authen.GetUsername)
 		user.POST("/logout", authen.Logout)
+
+		diaryGroup := user.Group("/diary")
+		{
+			diaryGroup.POST("/add", diary.AddDiary)
+			diaryGroup.POST("/update", diary.UpdateDiary)
+			diaryGroup.GET("/get", diary.GetDiary)
+
+		}
 	}
 
 	return r
